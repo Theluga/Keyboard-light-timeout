@@ -1,0 +1,29 @@
+[Unit]
+
+Description=roda luz timeout com 1% de processamento
+After=multi-user.target
+After=graphical.target
+After=basic.target
+After=sysinit.target
+After=system.slice
+After=systemd-journald.socket
+After=tlp.service
+After=initrd-switch-root.service
+
+
+
+[Service]
+
+User=user
+Environment=DISPLAY=:0
+Environment=WAYLAND_DISPLAY=wayland-0
+ExecStartPre=/bin/bash -c "sleep 10"
+ExecStart=/bin/bash -c "export DBUS_SESSION_BUS_ADDRESS=$(grep -z DBUS_SESSION_BUS_ADDRESS /proc/$(pgrep -u $LOGNAME gnome-session | head -n 1)/environ | tr '\0' '\n' | cut -d= -f2-); exec /home/user/scripts/kbd_idle_light"
+
+
+Restart=always
+
+[Install]
+
+WantedBy=graphical.target
+WantedBy=multi-user.target

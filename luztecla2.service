@@ -1,0 +1,16 @@
+[Unit]
+
+Description=roda luz timeout com 1% de processamento
+After=graphical.target
+
+[Service]
+
+
+User=root
+
+ExecStart=/bin/bash -c "chmod ugo+rw /sys/devices/platform/dell-laptop/leds/dell::kbd_backlight/brightness"
+
+
+[Install]
+
+WantedBy=graphical.target

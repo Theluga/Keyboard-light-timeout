@@ -1,0 +1,32 @@
+#!/bin/bash
+
+dim_time=10 # time to wait before dimming the screen
+now_idle=false # flag to indicate if user is currently idle
+idle_brightness=0 # dimmed screen brightness to set when idle
+brightness_file="/sys/devices/platform/dell-laptop/leds/dell::kbd_backlight/brightness"
+cpu_limit=10 # CPU limit, adjust as needed (10 = 10% of system CPU)
+
+# Set the priority of the current script
+renice "$cpu_limit" "$$"
+xprintidle
+while true; do
+    # Fetch the idle time using xprintidle
+    idle_time=$(xprintidle)
+
+    # Check if user has gone idle
+    if ((idle_time >= dim_time * 1000)) && [ "$now_idle" = false ]; then
+        # Save current brightness
+        brightness_before=$(cat "$brightness_file")
+
+        # Dim the screen
+        echo "$idle_brightness" | tee "$brightness_file"
+        now_idle=true
+    # Check if user has become active
+    elif ((idle_time < dim_time * 1000)) && [ "$now_idle" = true ]; then
+        # Set brightness to the value before dimming
+        echo "$brightness_before" | tee "$brightness_file"
+        now_idle=false
+    fi
+
+    sleep 1
+done

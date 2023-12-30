@@ -17,3 +17,12 @@ inspired from
 
 https://partrobot.ai/blog/setting-keyboard-backlight-timeout-linux/
 
+when I receive my new laptop I will try to modify my scripts to use dbus instead of two services to change ownership of the brightness file with the function
+
+setKeyboardLight () {
+    dbus-send --system --type=method_call  --dest="org.freedesktop.UPower" "/org/freedesktop/UPower/KbdBacklight" "org.freedesktop.UPower.KbdBacklight.SetBrightness" int32:$1 
+}
+
+from: https://wiki.archlinux.org/title/keyboard_backlight
+
+

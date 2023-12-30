@@ -12,3 +12,8 @@ if there was a need for it, I could update the read me and code.
 
 when running on gnome. be sure to pass the right ambient variables on the service as root, otherwise it won't work.
 the kbd*_x is to use the service as an user and depends on xprintidle.
+
+inspired from 
+
+https://partrobot.ai/blog/setting-keyboard-backlight-timeout-linux/
+

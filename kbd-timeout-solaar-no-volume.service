@@ -1,0 +1,12 @@
+[Unit]
+Description=Keyboard timeout profile switch (Solaar)
+After=graphical-session.target
+
+[Service]
+ExecStartPre=/bin/bash -c "sleep 10"
+ExecStart=%h/.local/bin/kbd_timeout-no-volume_G815_Solaar.sh
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target
